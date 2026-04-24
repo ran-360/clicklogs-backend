@@ -88,6 +88,19 @@ def save_taps():
     return "Data saved successfully"
 
 
+#if __name__ == "__main__":
+#    print("Go to → http://localhost:5000")
+#    app.run(debug=False, port=5000)
+
+if not firebase_admin._apps:
+    if os.path.exists("serviceAccountKey.json"):
+        cred = credentials.Certificate("serviceAccountKey.json")
+    else:
+        key_dict = json.loads(os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+        cred = credentials.Certificate(key_dict)
+    firebase_admin.initialize_app(cred)
+
 if __name__ == "__main__":
-    print("Go to → http://localhost:5000")
-    app.run(debug=False, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    print(f"Go to → http://localhost:{port}")
+    app.run(host="0.0.0.0", port=port, debug=False)
