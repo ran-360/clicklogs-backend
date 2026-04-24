@@ -101,7 +101,7 @@
 				    }
 				};
 				//var getLookups = "saveTaps.php?id="+uniqueIdentifier+"&var="+dependentVariable+"&taps=["+tapLogsArray+"]";
-				var url = "http://localhost:5000/saveTaps"
+				var url = "https://clicklogs-backend-67vy.onrender.com"
 				var params ="id="+uniqueIdentifier+"&var="+dependentVariable+"&taps=["+tapLogsArray+"]";
 				xmlhttp.open("POST",url,true);
 				xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
