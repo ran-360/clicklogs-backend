@@ -8,10 +8,16 @@ from flask import Flask, request, send_from_directory
 from flask_cors import CORS
 
 # Firebase
+#if not firebase_admin._apps:
+#    cred = credentials.Certificate("serviceAccountKey.json")
+#    firebase_admin.initialize_app(cred)
 if not firebase_admin._apps:
-    cred = credentials.Certificate("serviceAccountKey.json")
+    if os.path.exists("serviceAccountKey.json"):
+        cred = credentials.Certificate("serviceAccountKey.json")
+    else:
+        key_dict = json.loads(os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+        cred = credentials.Certificate(key_dict)
     firebase_admin.initialize_app(cred)
-
 db = firestore.client()
 print("[OK] Firebase connected")
 
@@ -92,13 +98,7 @@ def save_taps():
 #    print("Go to → http://localhost:5000")
 #    app.run(debug=False, port=5000)
 
-if not firebase_admin._apps:
-    if os.path.exists("serviceAccountKey.json"):
-        cred = credentials.Certificate("serviceAccountKey.json")
-    else:
-        key_dict = json.loads(os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
-        cred = credentials.Certificate(key_dict)
-    firebase_admin.initialize_app(cred)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
